@@ -1,73 +1,34 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef HOLBERTON_H
+#define HOLBERTON_H
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <unistd.h>
-#include <errno.h>
-#include <dirent.h>
-#include <signal.h>
+#include <string.h>
 
-
-/*constants*/
-#define EXTERNAL_COMMAND 1
-#define INTERNAL_COMMAND 2
-#define PATH_COMMAND 3
-#define INVALID_COMMAND -1
-
-#define min(x, y) (((x) < (y)) ? (x) : (y))
-
-/**
- *struct map - a struct that maps a command name to a function
- *
- *@command_name: name of the command
- *@func: the function that executes the command
- */
-
-typedef struct map
-{
-	char *command_name;
-	void (*func)(char **command);
-} function_map;
+#define strtok_delim " \n\r\a\t"
 
 extern char **environ;
-extern char *line;
-extern char **commands;
-extern char *shell_name;
-extern int status;
-
-void print(char *, int);
-char **tokenizer(char *, char *);
-void remove_newline(char *);
-int _strlen(char *);
-void _strcpy(char *, char *);
-
-int _strcmp(char *, char *);
-char *_strcat(char *, char *);
-int _strspn(char *, char *);
-int _strcspn(char *, char *);
-char *_strchr(char *, char);
-
-char *_strtok_r(char *, char *, char **);
-int _atoi(char *);
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-void ctrl_c_handler(int);
-void remove_comment(char *);
-
-int parse_command(char *);
-void execute_command(char **, int);
-char *check_path(char *);
-void (*get_func(char *))(char **);
-char *_getenv(char *);
-
-void env(char **);
-void quit(char **);
-
-extern void non_interactive(void);
-extern void initializer(char **current_command, int type_command);
+int str_to_array(char *cmd_line, int count, char **argv);
+int _exec(char **cmd_list, int i, char *cmd_line, int count, char **argv);
+void command_not_found(int i, char **cmd_list, int count, char **argv);
+int _strlen(char *s);
+char *_strncpy(char *dest, char *src, int n);
+char *_strdup(char *str);
+char *_path(char *command);
+char *directory(char *temporal_dir, char *command);
+char *_strcat(char *dest, char *src);
+char *_strdup(char *str);
+int _strcmp(char *s1, char *s2);
+char *_strcpy(char *dest, char *src);
+void *_calloc(unsigned int nmemb, unsigned int size);
+void a_exit(char **text, int i, char *cmd_line, int exit_status);
+void _env(void);
+void signal_handler(int signal);
+int _putchar(char c);
+void print_number(int n);
 
 #endif
